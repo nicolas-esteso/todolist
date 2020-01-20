@@ -1,0 +1,21 @@
+.main-todo-list {
+    width: 90%;
+    margin: auto;
+}
+
+p.no-todos {
+    margin: 15px 20px 0 20px;
+    padding-bottom: 15px;
+    text-align:center;
+}
+
+p.no-todos button {
+    margin-left: 15px;
+    margin-top: 15px;
+}
+
+.divider-container {
+    position: relative;
+    width: 90%;
+    width: auto;
+}

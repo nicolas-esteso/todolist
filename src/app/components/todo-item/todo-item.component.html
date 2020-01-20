@@ -1,0 +1,8 @@
+<ng-container *ngIf="todo$ | async as todo">
+    <mat-list-item [ngStyle]="{'text-decoration': todo.done ? 'line-through' : 'initial'}">
+        <p>{{ todo.title }}</p>
+        <div class="actions-container">
+            <mat-checkbox disabled="true" [checked]="todo.done"></mat-checkbox>
+        </div>
+    </mat-list-item>
+</ng-container>

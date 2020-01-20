@@ -1,0 +1,12 @@
+<ng-container *ngIf="todos$ | async as todos;">
+    <div *ngIf="todos.length > 0">
+        <mat-list class="main-todo-list">
+            <div *ngFor="let todo of todos | sortTodos; let isLast = last">
+                <td-todo-item [todoId]="todo.id"></td-todo-item>
+                <div *ngIf="!isLast" class="divider-container">
+                    <mat-divider></mat-divider>
+                </div>
+            </div>
+        </mat-list>
+    </div>
+</ng-container>
