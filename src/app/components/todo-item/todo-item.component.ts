@@ -3,6 +3,7 @@ import { ITodoItem } from '../../model/todo-item.model';
 import { Store } from '@ngrx/store';
 import { ITodoStore } from '../../store/app.state';
 import * as TodoSelectors from '../../store/todo.selectors';
+import * as TodoActions from '../../store/todo.actions';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -22,4 +23,8 @@ export class TodoItemComponent implements OnInit {
     this.todo$ = this.store.select(TodoSelectors.selectTodo, { id: this.todoId });
   }
 
+  toggleTodoState(todoItem: ITodoItem) {
+    const udpatedTodo: ITodoItem = { ...todoItem, done: !todoItem.done };
+    this.store.dispatch(TodoActions.changeTodoStatusAction(udpatedTodo));
+  }
 }

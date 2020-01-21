@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, async, tick, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
 
 import { TodoItemComponent } from './todo-item.component';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -16,8 +16,8 @@ describe('TodoItemComponent', () => {
     store: {
       isLoaded: true,
       todos: [
-        { id: 1, title: 'Title of the TODO done', done: true, creationDate: Date.parse('2010-01-01') },
-        { id: 2, title: 'Title of the TODO', done: false, creationDate: Date.parse('2010-01-01') }
+        { id: 1, title: 'Title of the TODO done', done: true, lastChange: Date.parse('2010-01-01') },
+        { id: 2, title: 'Title of the TODO', done: false, lastChange: Date.parse('2010-01-01') }
       ],
     }
   };
@@ -78,4 +78,5 @@ describe('TodoItemComponent', () => {
     });
 
   }));
+
 });

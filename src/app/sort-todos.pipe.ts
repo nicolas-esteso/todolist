@@ -16,22 +16,22 @@ export class SortTodosPipe implements PipeTransform {
     // This is how the todos are sorted:
     //  - They are split into two categories: the ones that are done and the ones that aren't.
     //  - The ones that are done are always at the top of the list.
-    //  - In each of the two sections, todos are sorted by creation date. The newest TODO will be at the top
-    //    of its section.
+    //  - In the done section, the most recently updated todo will be at the top of the list.
+    //  - In the undone section, the most recently created todo will be at the bottom of the list.
     //
     todos.sort((a: ITodoItem, b: ITodoItem) => {
       if (a.done) {
         if (!b.done) {
           return 1;
         } else {
-          return b.creationDate - a.creationDate;
+          return a.lastChange - b.lastChange;
         }
       } else if (b.done) {
         // a is unchecked.
         return -1;
       } else {
         // a and b are unchecked.
-        return b.creationDate - a.creationDate;
+        return b.lastChange - a.lastChange;
       }
     });
 

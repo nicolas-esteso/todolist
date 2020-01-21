@@ -8,6 +8,7 @@ import { provideMockStore, MockStore } from '@ngrx/store/testing';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { Store } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material/material.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TodoListComponent', () => {
   let mockStore: MockStore<ITodoStore>;
@@ -17,8 +18,8 @@ describe('TodoListComponent', () => {
     store: {
       isLoaded: true,
       todos: [
-        { id: 1, title: 'Title of the TODO', done: false, creationDate: Date.parse('2010-01-01') },
-        { id: 2, title: 'Title of the TODO2', done: true, creationDate: Date.parse('2011-01-01') }
+        { id: 1, title: 'Title of the TODO', done: false, lastChange: Date.parse('2010-01-01') },
+        { id: 2, title: 'Title of the TODO2', done: true, lastChange: Date.parse('2010-01-01') }
       ],
     }
   };
@@ -32,7 +33,8 @@ describe('TodoListComponent', () => {
       ],
       imports: [
         RouterModule,
-        MaterialModule
+        MaterialModule,
+        BrowserAnimationsModule
       ],
       providers: [ provideMockStore({ initialState })]
     })

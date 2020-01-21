@@ -2,7 +2,7 @@
     <mat-list-item [ngStyle]="{'text-decoration': todo.done ? 'line-through' : 'initial'}">
         <p>{{ todo.title }}</p>
         <div class="actions-container">
-            <mat-checkbox disabled="true" [checked]="todo.done"></mat-checkbox>
+            <mat-checkbox  matTooltip="Change TODO status" [checked]="todo.done" (change)="toggleTodoState(todo)"></mat-checkbox>
         </div>
     </mat-list-item>
 </ng-container>

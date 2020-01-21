@@ -3,5 +3,5 @@ export interface ITodoItem {
     title: string;
     done: boolean;
     // Used for sorting purposes.
-    creationDate: number;
+    lastChange: number;
 }

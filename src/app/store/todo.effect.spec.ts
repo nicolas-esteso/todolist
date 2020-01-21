@@ -1,7 +1,7 @@
 import { ITodoStore } from './app.state';
 import { ITodoItem } from '../model/todo-item.model';
-import { loadTodosDoneAction, loadTodosAction } from './todo.actions';
-import { Observable, of, throwError, EMPTY } from 'rxjs';
+import { loadTodosDoneAction, loadTodosAction, changeTodoStatusDoneAction, changeTodoStatusAction } from './todo.actions';
+import { Observable, of, throwError } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -29,7 +29,7 @@ describe('TodoEffects', () => {
             provideMockActions(() => actions$),
             {
                 provide: TodoService,
-                useValue: jasmine.createSpyObj('todoService', ['getTodos'])
+                useValue: jasmine.createSpyObj('todoService', ['getTodos', 'updateTodo'])
             }
           ]
         }).compileComponents();
@@ -40,9 +40,9 @@ describe('TodoEffects', () => {
 
     it('should trigger the TODO initialization', () => {
         const getTodosMock: ITodoItem[] = [
-            { id: 1, title: 'TODO1', done: false, creationDate: Date.parse('2010-01-01') },
-            { id: 2, title: 'TODO2', done: true, creationDate: Date.parse('2011-01-01') },
-            { id: 3, title: 'TODO3', done: false, creationDate: Date.parse('2013-01-01') },
+            { id: 1, title: 'TODO1', done: false, lastChange: Date.parse('2010-01-01') },
+            { id: 2, title: 'TODO2', done: true, lastChange: Date.parse('2011-01-01') },
+            { id: 3, title: 'TODO3', done: false, lastChange: Date.parse('2013-01-01') },
         ];
 
         actions$ = of(loadTodosAction);
@@ -65,5 +65,14 @@ describe('TodoEffects', () => {
             },
             _ => fail('The initialization should not have failed')
         );
+    });
+
+    it('should trigger the update of a TODO', () => {
+        actions$ = of(changeTodoStatusAction);
+        todoService.updateTodo.and.returnValue(of({}));
+
+        effects.changeTodoStatus$.subscribe(action => {
+            expect(action.type).toBe(changeTodoStatusDoneAction.type);
+        });
     });
 });
