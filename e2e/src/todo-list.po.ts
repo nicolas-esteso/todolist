@@ -1,6 +1,7 @@
 import { browser, $$, ElementArrayFinder, $ } from 'protractor';
+import { TodoDetailPage } from './todo-detail.po';
 
-export class AppPage {
+export class TodoListPage {
   navigateTo() {
     return browser.get(browser.baseUrl) as Promise<any>;
   }
@@ -25,5 +26,10 @@ export class AppPage {
     const todoItem = this.getAllTodos().get(todoPositiion);
     const checkbox = todoItem.$('mat-checkbox');
     checkbox.click();
+  }
+
+  enterTodoDetail(todoPosition: number): TodoDetailPage {
+    this.getAllTodos().get(todoPosition).$('.actions-container .edit-button').click();
+    return new TodoDetailPage();
   }
 }

@@ -1,0 +1,14 @@
+
+.footer-separator {
+    border-top-width: 2px;
+    position: initial;
+    margin-top: 10px;
+}
+
+.actions-container {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    padding: 10px 10px 10px 0;
+    text-align: right;
+}

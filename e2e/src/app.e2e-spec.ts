@@ -1,11 +1,12 @@
-import { AppPage } from './app.po';
+import { TodoListPage } from './todo-list.po';
 import { browser, logging } from 'protractor';
+import { TodoDetailPage } from './todo-detail.po';
 
 describe('workspace-project App', () => {
-  let page: AppPage;
+  let page: TodoListPage;
 
   beforeEach(() => {
-    page = new AppPage();
+    page = new TodoListPage();
   });
 
   it('should display welcome message', () => {
@@ -53,6 +54,31 @@ describe('workspace-project App', () => {
     // Check that the TODO has been moved and that it has been updated.
     expect(page.getTodoLabel(0)).toEqual(todoLabel);
     expect(page.getTodoStatus(0)).toBeFalsy();
+  });
+
+  it('should display the detail of a TODO', () => {
+    const nbTodos = 8;
+    page.navigateTo();
+
+    expect(page.getTodoStatus(7)).toBeTruthy();
+    expect(page.getAllTodos().count()).toEqual(nbTodos);
+
+    let todoLabel = page.getTodoLabel(2);
+    expect(page.getTodoStatus(2)).toBeFalsy();
+
+    let detail: TodoDetailPage = page.enterTodoDetail(2);
+    expect(detail.getTodoStatus()).toBeFalsy();
+    expect(detail.getTodoTitle()).toEqual(todoLabel);
+    expect(detail.getTitleDecoration()).not.toContain('line-through');
+
+    page = detail.returnToList();
+    todoLabel = page.getTodoLabel(7);
+    expect(page.getTodoStatus(7)).toBeTruthy();
+
+    detail = page.enterTodoDetail(7);
+    expect(detail.getTodoStatus()).toBeTruthy();
+    expect(detail.getTodoTitle()).toEqual(todoLabel);
+    expect(detail.getTitleDecoration()).toContain('line-through');
   });
 
   afterEach(async () => {

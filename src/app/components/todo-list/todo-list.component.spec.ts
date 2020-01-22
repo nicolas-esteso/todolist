@@ -9,6 +9,7 @@ import { TodoItemComponent } from '../todo-item/todo-item.component';
 import { Store } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('TodoListComponent', () => {
   let mockStore: MockStore<ITodoStore>;
@@ -34,7 +35,8 @@ describe('TodoListComponent', () => {
       imports: [
         RouterModule,
         MaterialModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        RouterTestingModule.withRoutes([])
       ],
       providers: [ provideMockStore({ initialState })]
     })

@@ -14,11 +14,11 @@ describe('SortTodoPipe', () => {
 
   it('should sort a list of TODOSs', () => {
     const todoList: ITodoItem[] = [
-      { id: 1, title: 'TODO1', done: false, lastChange: Date.parse('2010-01-01') },
-      { id: 2, title: 'TODO2', done: true, lastChange: Date.parse('2011-01-01') },
-      { id: 3, title: 'TODO3', done: false, lastChange: Date.parse('2013-01-01') },
-      { id: 4, title: 'TODO4', done: false, lastChange: Date.parse('2012-01-01') },
-      { id: 5, title: 'TODO5', done: true, lastChange: Date.parse('2014-01-01') },
+      { id: 1, title: 'TODO1', done: false, description: '', lastChange: Date.parse('2010-01-01') },
+      { id: 2, title: 'TODO2', done: true, description: '', lastChange: Date.parse('2011-01-01') },
+      { id: 3, title: 'TODO3', done: false, description: '', lastChange: Date.parse('2013-01-01') },
+      { id: 4, title: 'TODO4', done: false, description: '', lastChange: Date.parse('2012-01-01') },
+      { id: 5, title: 'TODO5', done: true, description: '', lastChange: Date.parse('2014-01-01') },
     ];
 
     const result = pipe.transform(todoList);

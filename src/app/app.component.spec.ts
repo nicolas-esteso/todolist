@@ -9,6 +9,8 @@ import { SortTodosPipe } from './sort-todos.pipe';
 import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { ITodoStore } from './store/app.state';
 import { Store } from '@ngrx/store';
+import { TodoDetailComponent } from './components/todo-detail/todo-detail.component';
+import { FooterActionsComponent } from './components/footer-actions/footer-actions.component';
 
 describe('AppComponent', () => {
   let mockStore: MockStore<ITodoStore>;
@@ -27,7 +29,9 @@ describe('AppComponent', () => {
         AppComponent,
         TodoListComponent,
         SortTodosPipe,
-        TodoItemComponent
+        TodoItemComponent,
+        TodoDetailComponent,
+        FooterActionsComponent
       ],
       imports: [
         MaterialModule,

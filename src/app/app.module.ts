@@ -18,13 +18,17 @@ import { environment } from 'src/environments/environment';
 import { TodoListComponent } from './components/todo-list/todo-list.component';
 import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { SortTodosPipe } from './sort-todos.pipe';
+import { TodoDetailComponent } from './components/todo-detail/todo-detail.component';
+import { FooterActionsComponent } from './components/footer-actions/footer-actions.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TodoListComponent,
     TodoItemComponent,
-    SortTodosPipe
+    SortTodosPipe,
+    TodoDetailComponent,
+    FooterActionsComponent
   ],
   imports: [
     BrowserModule,

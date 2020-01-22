@@ -1,0 +1,14 @@
+<ng-container *ngIf="(todoItem$ | async) as todoItem">
+    <mat-toolbar color="accent">
+        <h2 class="todo-title" [ngStyle]="{'text-decoration': todoItem.done ? 'line-through' : 'initial'}">{{ todoItem.title }}</h2>
+        <mat-checkbox color="warn" disabled="true" [checked]="todoItem.done"></mat-checkbox>
+    </mat-toolbar>
+
+    <p class="todo-description mat-body">{{ todoItem.description }}</p>
+
+    <td-footer-actions>
+        <button routerLink="/" mat-raised-button color="warn" class="back-button">
+            <mat-icon>arrow_back</mat-icon>Back to the list
+        </button>
+    </td-footer-actions>
+</ng-container>
