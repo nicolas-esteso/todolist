@@ -12,6 +12,9 @@ import { TodoDetailComponent } from '../todo-detail/todo-detail.component';
 import { TodoListComponent } from '../todo-list/todo-list.component';
 import { FooterActionsComponent } from '../footer-actions/footer-actions.component';
 import { SortTodosPipe } from 'src/app/sort-todos.pipe';
+import { CreateTodoComponent } from '../create-todo/create-todo.component';
+import { NgrxFormsModule } from 'ngrx-forms';
+import { ErrorStateMatcherDirective } from '../create-todo/error-state-matcher.directive';
 
 describe('TodoItemComponent', () => {
   let mockStore: MockStore<ITodoStore>;
@@ -25,6 +28,7 @@ describe('TodoItemComponent', () => {
         { id: 1, title: 'Title of the TODO done', done: true, lastChange: Date.parse('2010-01-01') },
         { id: 2, title: 'Title of the TODO', done: false, lastChange: Date.parse('2010-01-01') }
       ],
+      todoCreationForm: null
     }
   };
 
@@ -35,11 +39,14 @@ describe('TodoItemComponent', () => {
         TodoDetailComponent,
         TodoListComponent,
         FooterActionsComponent,
-        SortTodosPipe
+        SortTodosPipe,
+        CreateTodoComponent,
+        ErrorStateMatcherDirective
       ],
       imports: [
         MaterialModule,
-        RouterTestingModule.withRoutes(ROUTES)
+        RouterTestingModule.withRoutes(ROUTES),
+        NgrxFormsModule
       ],
       providers: [ provideMockStore({ initialState }) ]
     })

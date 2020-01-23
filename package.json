@@ -25,6 +25,7 @@
     "@ngrx/store": "^8.6.0",
     "@ngrx/store-devtools": "^8.6.0",
     "angular-in-memory-web-api": "^0.9.0",
+    "ngrx-forms": "^6.1.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.10.0",
     "zone.js": "~0.9.1"

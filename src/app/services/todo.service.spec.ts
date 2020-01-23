@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { TodoService } from './todo.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ITodoItem } from '../model/todo-item.model';
+import { ITodoItem, ITodoCreationData } from '../model/todo-item.model';
 import { environment } from 'src/environments/environment';
 
 describe('TodoService', () => {
@@ -57,4 +57,20 @@ describe('TodoService', () => {
     expect(request.request.method).toBe('PUT');
     expect(request.request.body).toBe(todoToUpdate);
   });
+
+  it('should create a new todo', () => {
+    const todoToCreate: ITodoCreationData = { title: 'TODO to create', description: 'DESC' };
+    todoService.createTodo(todoToCreate).subscribe((todo: ITodoItem) => {
+      expect(todo.id).toEqual(1);
+      expect(todo.title).toEqual('TODO to create');
+      expect(todo.description).toEqual('DESC');
+      expect(todo.done).toBe(false);
+    });
+
+    const request = httpMock.expectOne(`${environment.baseUrl}/api/todos/`);
+    request.flush({ id: 1, title: 'TODO to create', description: 'DESC', done: false, lastChange: Date.now });
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toBe(todoToCreate);
+  });
 });
+

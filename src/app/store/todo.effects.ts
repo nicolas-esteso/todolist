@@ -28,4 +28,14 @@ export class TodoEffects {
             map(_ => TodoActions.changeTodoStatusDoneAction(todo))
         ))
     ));
+
+    createTodo$ = createEffect(() => this.actions$.pipe(
+        ofType(TodoActions.createTodoAction),
+        mergeMap(
+            todo => this.todoService.createTodo(todo).pipe(
+                map(todoItem => TodoActions.todoCreationDoneAction(todoItem))
+            )
+        ))
+    );
+
 }

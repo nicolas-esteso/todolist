@@ -11,6 +11,9 @@ import { ITodoStore } from './store/app.state';
 import { Store } from '@ngrx/store';
 import { TodoDetailComponent } from './components/todo-detail/todo-detail.component';
 import { FooterActionsComponent } from './components/footer-actions/footer-actions.component';
+import { CreateTodoComponent } from './components/create-todo/create-todo.component';
+import { NgrxFormsModule } from 'ngrx-forms';
+import { ErrorStateMatcherDirective } from './components/create-todo/error-state-matcher.directive';
 
 describe('AppComponent', () => {
   let mockStore: MockStore<ITodoStore>;
@@ -19,7 +22,8 @@ describe('AppComponent', () => {
       todos: [],
       // In the initial state, isLoaded is set to true because most test cases will usually expect
       // the todos to be displayed.
-      isLoaded: true
+      isLoaded: true,
+      todoCreationForm: null
     }
   };
 
@@ -31,11 +35,14 @@ describe('AppComponent', () => {
         SortTodosPipe,
         TodoItemComponent,
         TodoDetailComponent,
-        FooterActionsComponent
+        FooterActionsComponent,
+        CreateTodoComponent,
+        ErrorStateMatcherDirective
       ],
       imports: [
         MaterialModule,
         RouterModule.forRoot(ROUTES),
+        NgrxFormsModule
       ],
       providers: [
         provideMockStore({initialState})

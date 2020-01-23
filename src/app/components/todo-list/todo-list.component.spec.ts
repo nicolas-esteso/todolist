@@ -1,7 +1,6 @@
-import { ComponentFixture, TestBed, fakeAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { TodoListComponent } from './todo-list.component';
-import { RouterModule } from '@angular/router';
 import { SortTodosPipe } from 'src/app/sort-todos.pipe';
 import { ITodoStore } from 'src/app/store/app.state';
 import { provideMockStore, MockStore } from '@ngrx/store/testing';
@@ -10,11 +9,19 @@ import { Store } from '@ngrx/store';
 import { MaterialModule } from 'src/app/material/material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FooterActionsComponent } from '../footer-actions/footer-actions.component';
+import { Location } from '@angular/common';
+import { ROUTES } from 'src/app/app.routes';
+import { TodoDetailComponent } from '../todo-detail/todo-detail.component';
+import { CreateTodoComponent } from '../create-todo/create-todo.component';
+import { NgrxFormsModule } from 'ngrx-forms';
+import { ErrorStateMatcherDirective } from '../create-todo/error-state-matcher.directive';
 
 describe('TodoListComponent', () => {
   let mockStore: MockStore<ITodoStore>;
   let component: TodoListComponent;
   let fixture: ComponentFixture<TodoListComponent>;
+  let location: Location;
   const initialState: ITodoStore = {
     store: {
       isLoaded: true,
@@ -22,6 +29,7 @@ describe('TodoListComponent', () => {
         { id: 1, title: 'Title of the TODO', done: false, lastChange: Date.parse('2010-01-01') },
         { id: 2, title: 'Title of the TODO2', done: true, lastChange: Date.parse('2010-01-01') }
       ],
+      todoCreationForm: null
     }
   };
 
@@ -31,12 +39,16 @@ describe('TodoListComponent', () => {
         TodoListComponent,
         SortTodosPipe,
         TodoItemComponent,
+        FooterActionsComponent,
+        TodoDetailComponent,
+        CreateTodoComponent,
+        ErrorStateMatcherDirective
       ],
       imports: [
-        RouterModule,
         MaterialModule,
         BrowserAnimationsModule,
-        RouterTestingModule.withRoutes([])
+        RouterTestingModule.withRoutes(ROUTES),
+        NgrxFormsModule,
       ],
       providers: [ provideMockStore({ initialState })]
     })
@@ -47,6 +59,7 @@ describe('TodoListComponent', () => {
   });
 
   beforeEach(() => {
+    location = TestBed.get(Location);
     fixture = TestBed.createComponent(TodoListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -64,5 +77,16 @@ describe('TodoListComponent', () => {
       expect(compiled.querySelectorAll('td-todo-item').length).toBe(2);
       expect(compiled.querySelectorAll('.main-todo-list .divider-container').length).toBe(1);
     });
+  }));
+
+  it('should enable creation of a new todo', fakeAsync(() => {
+    fixture.detectChanges();
+    tick();
+    const compiled = fixture.debugElement.nativeElement;
+    const createTodoButton = compiled.querySelector('mat-card-actions button');
+    expect(createTodoButton).toBeDefined();
+    createTodoButton.click();
+    tick();
+    expect(location.path()).toBe('/create');
   }));
 });

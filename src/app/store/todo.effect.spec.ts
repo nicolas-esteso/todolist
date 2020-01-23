@@ -1,6 +1,6 @@
 import { ITodoStore } from './app.state';
 import { ITodoItem } from '../model/todo-item.model';
-import { loadTodosDoneAction, loadTodosAction, changeTodoStatusDoneAction, changeTodoStatusAction } from './todo.actions';
+import * as TodoActions from './todo.actions';
 import { Observable, of, throwError } from 'rxjs';
 import { Action } from '@ngrx/store';
 import { TestBed } from '@angular/core/testing';
@@ -17,7 +17,8 @@ describe('TodoEffects', () => {
     const initialState: ITodoStore = {
         store: {
             todos: [],
-            isLoaded: true
+            isLoaded: true,
+            todoCreationForm: null
         }
     };
 
@@ -45,22 +46,22 @@ describe('TodoEffects', () => {
             { id: 3, title: 'TODO3', done: false, lastChange: Date.parse('2013-01-01') },
         ];
 
-        actions$ = of(loadTodosAction);
+        actions$ = of(TodoActions.loadTodosAction);
         todoService.getTodos.and.returnValue(of(getTodosMock));
 
         effects.initializeTodos$.subscribe(action => {
-            expect(action.type).toBe(loadTodosDoneAction.type);
+            expect(action.type).toBe(TodoActions.loadTodosDoneAction.type);
             expect(action.todos.length).toEqual(3);
         });
     });
 
     it('should return an empty observable if an error occurs', () => {
-        actions$ = of(loadTodosAction);
+        actions$ = of(TodoActions.loadTodosAction);
         todoService.getTodos.and.returnValue(throwError('An error occurred'));
 
         effects.initializeTodos$.subscribe(
             action => {
-                expect(action.type).toBe(loadTodosDoneAction.type);
+                expect(action.type).toBe(TodoActions.loadTodosDoneAction.type);
                 expect(action.todos.length).toEqual(0);
             },
             _ => fail('The initialization should not have failed')
@@ -68,11 +69,11 @@ describe('TodoEffects', () => {
     });
 
     it('should trigger the update of a TODO', () => {
-        actions$ = of(changeTodoStatusAction);
+        actions$ = of(TodoActions.changeTodoStatusAction);
         todoService.updateTodo.and.returnValue(of({}));
 
         effects.changeTodoStatus$.subscribe(action => {
-            expect(action.type).toBe(changeTodoStatusDoneAction.type);
+            expect(action.type).toBe(TodoActions.changeTodoStatusDoneAction.type);
         });
     });
 });

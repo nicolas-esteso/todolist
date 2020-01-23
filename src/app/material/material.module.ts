@@ -8,6 +8,8 @@ import {
   MatButtonModule,
   MatProgressSpinnerModule,
   MatIconModule,
+  MatFormFieldModule,
+  MatInputModule,
 } from '@angular/material';
 import { MatListModule } from '@angular/material/list';
 
@@ -21,7 +23,9 @@ import { MatListModule } from '@angular/material/list';
     MatToolbarModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule
   ]
 })
 export class MaterialModule {}

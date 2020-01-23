@@ -6,3 +6,8 @@ export interface ITodoItem {
     // Used for sorting purposes.
     lastChange: number;
 }
+
+export interface ITodoCreationData {
+    title: string;
+    description: string;
+}

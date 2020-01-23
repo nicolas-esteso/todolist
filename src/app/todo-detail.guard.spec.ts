@@ -17,6 +17,7 @@ describe('TodoDetailGuard', () => {
     store: {
       isLoaded: true,
       todos: [{ id: 1, title: 'TODO', lastChange: Date.now(), done: true}],
+      todoCreationForm: null
     }
   };
 

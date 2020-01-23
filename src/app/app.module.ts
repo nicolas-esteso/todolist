@@ -11,7 +11,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 import { TodoEffects } from './store/todo.effects';
-import { todoReducer } from './store/todo.reducer';
+import { reducers } from './store/todo.reducer';
 import { HttpClientModule } from '@angular/common/http';
 import { MockedTodoService } from './mocked-todo-service';
 import { environment } from 'src/environments/environment';
@@ -20,6 +20,9 @@ import { TodoItemComponent } from './components/todo-item/todo-item.component';
 import { SortTodosPipe } from './sort-todos.pipe';
 import { TodoDetailComponent } from './components/todo-detail/todo-detail.component';
 import { FooterActionsComponent } from './components/footer-actions/footer-actions.component';
+import { CreateTodoComponent } from './components/create-todo/create-todo.component';
+import { ErrorStateMatcherDirective } from './components/create-todo/error-state-matcher.directive';
+import { NgrxFormsModule } from 'ngrx-forms';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { FooterActionsComponent } from './components/footer-actions/footer-actio
     TodoItemComponent,
     SortTodosPipe,
     TodoDetailComponent,
-    FooterActionsComponent
+    FooterActionsComponent,
+    CreateTodoComponent,
+    ErrorStateMatcherDirective
   ],
   imports: [
     BrowserModule,
@@ -37,9 +42,10 @@ import { FooterActionsComponent } from './components/footer-actions/footer-actio
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(MockedTodoService),
     RouterModule.forRoot(ROUTES),
-    StoreModule.forRoot({store: todoReducer}),
+    StoreModule.forRoot({store: reducers}),
     EffectsModule.forRoot([TodoEffects]),
     !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 25}) : [],
+    NgrxFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

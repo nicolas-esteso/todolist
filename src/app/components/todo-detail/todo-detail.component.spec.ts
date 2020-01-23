@@ -12,6 +12,9 @@ import { Location } from '@angular/common';
 import { TodoListComponent } from '../todo-list/todo-list.component';
 import { SortTodosPipe } from 'src/app/sort-todos.pipe';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
+import { CreateTodoComponent } from '../create-todo/create-todo.component';
+import { NgrxFormsModule } from 'ngrx-forms';
+import { ErrorStateMatcherDirective } from '../create-todo/error-state-matcher.directive';
 
 describe('TodoDetailComponent', () => {
 
@@ -27,6 +30,7 @@ describe('TodoDetailComponent', () => {
         { id: 1, title: 'TODO1', done: false, lastChange: Date.now(), description: 'DESC1'},
         { id: 2, title: 'TODO2', done: true, lastChange: Date.now(), description: 'DESC2'},
       ],
+      todoCreationForm: null
     }
   };
 
@@ -39,11 +43,14 @@ describe('TodoDetailComponent', () => {
           FooterActionsComponent,
           TodoListComponent,
           SortTodosPipe,
-          TodoItemComponent
+          TodoItemComponent,
+          CreateTodoComponent,
+          ErrorStateMatcherDirective
         ],
         imports: [
           MaterialModule,
-          RouterTestingModule.withRoutes(ROUTES)
+          RouterTestingModule.withRoutes(ROUTES),
+          NgrxFormsModule
         ],
         providers: [
           provideMockStore({ initialState }),
@@ -97,11 +104,14 @@ describe('TodoDetailComponent', () => {
           FooterActionsComponent,
           TodoListComponent,
           SortTodosPipe,
-          TodoItemComponent
+          TodoItemComponent,
+          CreateTodoComponent,
+          ErrorStateMatcherDirective
         ],
         imports: [
           MaterialModule,
-          RouterTestingModule.withRoutes(ROUTES)
+          RouterTestingModule.withRoutes(ROUTES),
+          NgrxFormsModule
         ],
         providers: [
           provideMockStore({ initialState }),

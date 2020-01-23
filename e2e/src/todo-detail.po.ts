@@ -14,6 +14,10 @@ export class TodoDetailPage {
         return $('td-todo-detail mat-toolbar h2').getText();
     }
 
+    getTodoDescription() {
+        return $('td-todo-detail p.todo-description').getText();
+    }
+
     getTitleDecoration() {
         return $('td-todo-detail mat-toolbar h2').getCssValue('text-decoration');
     }

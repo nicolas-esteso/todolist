@@ -1,0 +1,35 @@
+<mat-toolbar color="accent">
+    <h2>Create a new TODO</h2>
+</mat-toolbar>
+
+<div class="create-todo-form">
+    <form  [ngrxFormState]="formState" *ngIf="formState$ | async as formState">
+        <p>
+            <mat-form-field appearance="standard" class="form-field title-input">
+                <mat-label>Todo title</mat-label>
+                <input [ngrxFormControlState]="formState.controls.title" [tdErrorChecker]="formState.controls.title" matInput placeholder="Todo title" required>
+                <mat-error>Title is mandatory</mat-error>
+            </mat-form-field>
+        </p>
+
+        <p>
+            <mat-form-field appearance="standard" class="form-field description-input">
+                <mat-label>Todo description</mat-label>
+                <textarea [ngrxFormControlState]="formState.controls.description" matInput placeholder="Todo description" class="todo-description"></textarea>
+            </mat-form-field>
+        </p>
+    </form>
+</div>
+
+<td-footer-actions>
+    <div>
+        <button (click)="navigateToList()" mat-raised-button color="warn" id="back-button">
+            <mat-icon>arrow_back</mat-icon>
+            Back to list
+        </button>
+        <button [disabled]="!(formState$ | async ).isValid" mat-raised-button color="warn" (click)="createTodo()" id="create-button">
+            Create TODO
+            <mat-icon>done</mat-icon>
+        </button>
+    </div>
+</td-footer-actions>

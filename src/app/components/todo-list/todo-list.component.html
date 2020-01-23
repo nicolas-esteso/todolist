@@ -1,5 +1,5 @@
 <ng-container *ngIf="todos$ | async as todos;">
-    <div *ngIf="todos.length > 0">
+    <div *ngIf="todos.length > 0 else noTodos">
         <mat-list @blockAnimation class="main-todo-list">
             <div @todo *ngFor="let todo of todos | sortTodos; let isLast = last">
                 <td-todo-item [todoId]="todo.id"></td-todo-item>
@@ -8,5 +8,24 @@
                 </div>
             </div>
         </mat-list>
+
+        <td-footer-actions>
+            <div>
+                <button mat-raised-button color="warn" [routerLink]="['/create']">
+                    Add a new TODO
+                    <mat-icon>add_circle</mat-icon>
+                </button>
+            </div>
+        </td-footer-actions>
     </div>
+    
+    <ng-template #noTodos>
+        <p class="no-todos">
+            You don't have any todos yet, create the first one now !
+            <button mat-raised-button color="warn" [routerLink]="['/create']">
+                Add a new TODO
+                <mat-icon>add_circle</mat-icon>
+            </button>
+        </p>
+    </ng-template>
 </ng-container>

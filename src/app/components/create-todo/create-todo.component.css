@@ -1,0 +1,14 @@
+.create-todo-container {
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: 0;
+}
+
+.create-todo-form {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.create-todo-form .form-field {
+    width: 100%;
+}

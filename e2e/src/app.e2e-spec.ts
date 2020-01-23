@@ -1,6 +1,7 @@
 import { TodoListPage } from './todo-list.po';
 import { browser, logging } from 'protractor';
 import { TodoDetailPage } from './todo-detail.po';
+import { TodoCreationPage } from './todo-creation.po';
 
 describe('workspace-project App', () => {
   let page: TodoListPage;
@@ -79,6 +80,46 @@ describe('workspace-project App', () => {
     expect(detail.getTodoStatus()).toBeTruthy();
     expect(detail.getTodoTitle()).toEqual(todoLabel);
     expect(detail.getTitleDecoration()).toContain('line-through');
+  });
+
+  it('should create a new TODO', () => {
+    new TodoCreationPage().navigateTo();
+
+    const nbTodos = 8;
+    const creationPage = new TodoCreationPage();
+    const newTodoName = 'A new TODO';
+    const newTodoDesc = 'DESC';
+    expect(creationPage.getCreationButtonStatus()).toBeFalsy();
+    creationPage.typeTitle(newTodoName);
+    expect(creationPage.getCreationButtonStatus()).toBeUndefined();
+    creationPage.typeDescription(newTodoDesc);
+    creationPage.createTodo();
+    const todoListPage: TodoListPage = new TodoListPage();
+    expect(todoListPage.getAllTodos().count()).toEqual(nbTodos + 1);
+    expect(todoListPage.getTodoLabel(0)).toEqual(newTodoName);
+
+    todoListPage.enterTodoDetail(0);
+    const detailPage = new TodoDetailPage();
+    expect(detailPage.getTodoTitle()).toEqual(newTodoName);
+    expect(detailPage.getTodoDescription()).toEqual(newTodoDesc);
+    expect(detailPage.getTodoStatus()).toBeFalsy();
+  });
+
+  it('should not be possible to create a TODO without a title', () => {
+    new TodoCreationPage().navigateTo();
+
+    const creationPage = new TodoCreationPage();
+    expect(creationPage.getCreationButtonStatus()).toBeFalsy();
+    creationPage.typeTitle('TODO');
+    creationPage.eraseTitle();
+    expect(creationPage.getTitle()).toEqual('');
+    expect(creationPage.isErrorLabelDisplayed()).toBeTruthy();
+    expect(creationPage.getErrorLabel().getText()).toContain('Title is mandatory');
+    expect(creationPage.getCreationButtonStatus()).toBeFalsy();
+
+    creationPage.typeTitle('TODO');
+    expect(creationPage.getTitle()).toEqual('TODO');
+    expect(creationPage.isErrorLabelDisplayed()).toBeFalsy();
   });
 
   afterEach(async () => {

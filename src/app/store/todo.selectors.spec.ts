@@ -1,6 +1,7 @@
-import { ITodoStore } from './app.state';
+import { ITodoStore, ITodoCreationFormContent } from './app.state';
 import * as TodoSelectors from './todo.selectors';
 import { ITodoItem } from '../model/todo-item.model';
+import { createFormGroupState } from 'ngrx-forms';
 
 describe('TodoSelectors', () => {
     const mockedTodoList: ITodoItem[] = [
@@ -16,7 +17,11 @@ describe('TodoSelectors', () => {
         initialState = {
             store: {
                 todos: [],
-                isLoaded: false
+                isLoaded: false,
+                todoCreationForm: createFormGroupState<ITodoCreationFormContent>('create-todo-form-id', {
+                    title: '',
+                    description: ''
+                })
             }
         };
     });
@@ -42,5 +47,76 @@ describe('TodoSelectors', () => {
 
         expect(TodoSelectors.selectTodo(initialState, { id: 3 }).title).withContext('Select an existing TODO').toBe('TODO3');
         expect(TodoSelectors.selectTodo(initialState, { id: 7 })).withContext('Select a non exising TODO').toBe(undefined);
+    });
+
+    it('should select the content of the form', () => {
+        expect(TodoSelectors.selectCreationFormState(initialState).controls.title).toBeDefined();
+        expect(TodoSelectors.selectCreationFormState(initialState).controls.title.value).toBe('');
+
+        expect(TodoSelectors.selectCreationFormState(initialState).controls.description).toBeDefined();
+        expect(TodoSelectors.selectCreationFormState(initialState).controls.description.value).toBe('');
+
+        const newFormContent = createFormGroupState<ITodoCreationFormContent>('create-todo-form-id', {
+            title: '',
+            description: ''
+        });
+
+        const newState = {
+            store: {
+                ...initialState.store,
+                todoCreationForm: {
+                    ...newFormContent,
+                    isDirty: true,
+                    controls: {
+                        ...newFormContent.controls,
+                        title: {
+                            ...newFormContent.controls.title,
+                            isDirty: true,
+                            value: 'Todo Title',
+                        }
+                    }
+                }
+            }
+        };
+
+        expect(TodoSelectors.selectCreationFormState(newState).controls.title.value).toBe('Todo Title');
+        expect(TodoSelectors.selectCreationFormState(newState).controls.title.isDirty).toBeTruthy();
+
+        expect(TodoSelectors.selectCreationFormState(newState).controls.description).toBeDefined();
+        expect(TodoSelectors.selectCreationFormState(newState).controls.description.value).toBe('');
+
+        expect(TodoSelectors.selectCreationFormState(newState).isDirty).toBeTruthy();
+    });
+
+    it('should select data about the TODO to create', () => {
+
+        const formGroupState = createFormGroupState<ITodoCreationFormContent>('create-todo-form-id', {
+            title: '',
+            description: ''
+        });
+
+        const newState: ITodoStore = {
+            store: {
+                todos: [],
+                isLoaded: true,
+                todoCreationForm: {
+                    ...formGroupState,
+                    controls: {
+                        ...formGroupState.controls,
+                        title: {
+                            ...formGroupState.controls.title,
+                            value: 'TODO TITLE'
+                        },
+                        description: {
+                            ...formGroupState.controls.description,
+                            value: 'TODO DESC'
+                        }
+                    }
+                }
+            }
+        };
+
+        expect(TodoSelectors.selectTodoToCreate(newState).title).toBe('TODO TITLE');
+        expect(TodoSelectors.selectTodoToCreate(newState).description).toBe('TODO DESC');
     });
 });
